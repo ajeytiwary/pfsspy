@@ -13,7 +13,7 @@ def theta_phi(nphi, ns):
     return theta, phi
 
 
-def brss_pfsspy(nphi, ns, nrho, rss, l, m):
+def pffspy_output(nphi, ns, nrho, rss, l, m):
     # Return the pfsspy solution for given input parameters
     theta, phi = theta_phi(nphi, ns)
 
@@ -23,8 +23,12 @@ def brss_pfsspy(nphi, ns, nrho, rss, l, m):
     input_map = sunpy.map.Map((br_in.T, header))
 
     pfss_input = pfsspy.Input(input_map, nrho, rss)
-    pfss_output = pfsspy.pfss(pfss_input)
-    return pfss_output.bc[0][:, :, -1].T
+    return pfsspy.pfss(pfss_input)
+
+
+def brss_pfsspy(nphi, ns, nrho, rss, l, m):
+    pfsspy_out = pffspy_output(nphi, ns, nrho, rss, l, m)
+    return pfsspy_out.bc[0][:, :, -1].T
 
 
 def brss_analytic(nphi, ns, rss, l, m):
