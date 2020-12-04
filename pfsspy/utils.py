@@ -151,7 +151,7 @@ def is_full_sun_synoptic_map(m, error=False):
 def _is_full_sun_car(m, error=False):
     shape = m.data.shape
 
-    dphi = m.meta['cdelt1']
+    dphi = abs(m.meta['cdelt1'])
     phi = shape[1] * dphi
     if not np.allclose(phi, 360, atol=0.1):
         if error:
@@ -174,7 +174,7 @@ def _is_full_sun_car(m, error=False):
 def _is_full_sun_cea(m, error=False):
     shape = m.data.shape
 
-    dphi = m.meta['cdelt1']
+    dphi = abs(m.meta['cdelt1'])
     phi = shape[1] * dphi
     if not np.allclose(phi, 360, atol=0.1):
         if error:
@@ -184,7 +184,7 @@ def _is_full_sun_cea(m, error=False):
         return False
 
     dtheta = m.meta['cdelt2']
-    theta = shape[0] * dtheta * np.pi / 2
+    theta = shape[0] * dtheta * 180/2
     if not np.allclose(theta, 180, atol=0.1):
         if error:
             raise ValueError('Number of points in theta direction times '
